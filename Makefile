@@ -1,11 +1,11 @@
-CHART_DIRS := $(shell find . -maxdepth 2 -name Chart.yaml -exec dirname {} \;)
-PWD := $(shell pwd)
+CHART := charts/jobs-manager-operator
+
+copy-charts:
+	cp -R ../jobs-manager-operator/charts/jobs-manager-operator/* $(CHART)/.
 
 release-charts:
-	@for dir in $(CHART_DIRS); do \
-		cd $$dir; \
-		cr package --config ../../chart-releaser.yaml; \
-		cr upload --config ../../chart-releaser.yaml --skip-existing; \
-		cr index --config ../../chart-releaser.yaml; \
-		cd $(PWD); \
-	done
+	cd $(CHART); cr package --config ../../chart-releaser.yaml;
+	git add -A $(CHART)/packages; git fix; git push;
+	cd $(CHART); cr upload --config ../../chart-releaser.yaml --skip-existing;
+	cd $(CHART); cr index --config ../../chart-releaser.yaml;
+	cd $(CHART); cp .cr-index/index.yaml ../../index.yaml
