@@ -2,6 +2,60 @@ apiVersion: v1
 entries:
   jobs-manager:
   - apiVersion: v2
+    appVersion: 0.0.30
+    created: "2024-01-02T10:11:51.115128Z"
+    description: Kubernetes jobs manager operator
+    digest: c9c97a02e06d0eeb97906a3af473f284c471895a8fd60249f2928194dda90840
+    home: https://raczylo.com
+    keywords:
+    - operator
+    - jobs
+    - tasks
+    maintainers:
+    - email: job-manager-operator@raczylo.com
+      name: lukaszraczylo
+    name: jobs-manager
+    type: application
+    urls:
+    - https://github.com/lukaszraczylo/helm-charts/releases/download/jobs-manager-0.0.30/jobs-manager-0.0.30.tgz
+    version: 0.0.30
+  - apiVersion: v2
+    appVersion: 0.0.28
+    created: "2023-09-07T23:37:11.593558+01:00"
+    description: Kubernetes jobs manager operator
+    digest: bc73fe3343d8d1cdabbad8a6093f2ff81528e7cf5cd51d5810dcfe4a940b91d9
+    home: https://raczylo.com
+    keywords:
+    - operator
+    - jobs
+    - tasks
+    maintainers:
+    - email: job-manager-operator@raczylo.com
+      name: lukaszraczylo
+    name: jobs-manager
+    type: application
+    urls:
+    - https://github.com/lukaszraczylo/helm-charts/releases/download/jobs-manager-0.0.28/jobs-manager-0.0.28.tgz
+    version: 0.0.28
+  - apiVersion: v2
+    appVersion: 0.0.26
+    created: "2023-03-16T15:22:20.131338Z"
+    description: Kubernetes jobs manager operator
+    digest: 2355de9cf6f56211380a0e6b079361a4e5537ed704f73a2489892e9d57fbeed8
+    home: https://raczylo.com
+    keywords:
+    - operator
+    - jobs
+    - tasks
+    maintainers:
+    - email: job-manager-operator@raczylo.com
+      name: lukaszraczylo
+    name: jobs-manager
+    type: application
+    urls:
+    - https://github.com/lukaszraczylo/helm-charts/releases/download/jobs-manager-0.0.26/jobs-manager-0.0.26.tgz
+    version: 0.0.26
+  - apiVersion: v2
     appVersion: 0.0.24
     created: "2023-03-16T14:16:37.62176Z"
     description: Kubernetes jobs manager operator
@@ -19,22 +73,4 @@ entries:
     urls:
     - https://github.com/lukaszraczylo/helm-charts/releases/download/jobs-manager-0.0.24/jobs-manager-0.0.24.tgz
     version: 0.0.24
-  - apiVersion: v2
-    appVersion: 0.0.23
-    created: "2023-03-16T11:35:43.564179Z"
-    description: Kubernetes jobs manager operator
-    digest: d6c4f77c02d0f86ec61ad12fea55684a5b298704a463f995ed53cec4752079ca
-    home: https://raczylo.com
-    keywords:
-    - operator
-    - jobs
-    - tasks
-    maintainers:
-    - email: job-manager-operator@raczylo.com
-      name: lukaszraczylo
-    name: jobs-manager
-    type: application
-    urls:
-    - https://github.com/lukaszraczylo/helm-charts/releases/download/jobs-manager-0.0.23/jobs-manager-0.0.23.tgz
-    version: 0.0.23
-generated: "2023-03-16T14:16:37.621774Z"
+generated: "2024-01-02T10:11:51.115157Z"
