@@ -28,4 +28,5 @@ helm install <chart-name> raczylo/<chart-name>
 | Chart | Description |
 | ----- | ----------- |
 | [jobs-manager-operator](https://github.com/lukaszraczylo/jobs-manager-operator) | Kubernetes Operator for managing and scheduling Jobs |
+| [kube-images-sync](https://github.com/lukaszraczylo/kubernetes-images-sync-operator) | Kubernetes Operator for storing images pre-impex |
 | ----- | ----------- |
