@@ -93,6 +93,26 @@ entries:
     version: 0.0.24
   kube-images-sync:
   - apiVersion: v2
+    appVersion: 0.4.1
+    created: "2025-01-10T17:14:03.881141Z"
+    description: 'A Helm chart for Kubernetes Images Sync Operator. Kubernetes Images
+      Sync Operator is responsible for backing up and restoring images from a Kubernetes
+      cluster. It''s ultimate goal is to provide synchonization of images between
+      multiple environments, quite often air-gapped. It compiles the list of images
+      currently present in the cluster and uploads them to the specified storage.
+      Whenever new CRD is created - it will try to figure out which images were already
+      uploaded and which are new and  upload only the new ones to avoid repetition. '
+    digest: aed3bf38078744657b0bccd8033abdfd9c6d61f641b367640dbc23b355367e48
+    home: https://github.com/lukaszraczylo/kubernetes-images-sync-operator
+    maintainers:
+    - email: github-enquiries@raczylo.com
+      name: lukaszraczylo
+    name: kube-images-sync
+    type: application
+    urls:
+    - https://github.com/lukaszraczylo/helm-charts/releases/download/kube-images-sync-0.4.1/kube-images-sync-0.4.1.tgz
+    version: 0.4.1
+  - apiVersion: v2
     appVersion: 0.2.44
     created: "2025-01-10T15:53:39.187162Z"
     description: 'A Helm chart for Kubernetes Images Sync Operator. Kubernetes Images
@@ -892,4 +912,4 @@ entries:
     urls:
     - https://github.com/lukaszraczylo/helm-charts/releases/download/kube-images-sync-0.1.5/kube-images-sync-0.1.5.tgz
     version: 0.1.5
-generated: "2025-01-10T15:53:39.188206Z"
+generated: "2025-01-10T17:14:03.881872Z"
