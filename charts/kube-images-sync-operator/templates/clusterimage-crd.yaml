@@ -4,8 +4,10 @@ metadata:
   name: clusterimages.raczylo.com
   annotations:
     controller-gen.kubebuilder.io/version: v0.16.1
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "-5"
   labels:
-  {{- include "chart.labels" . | nindent 4 }}
+    app: kubernetes-images-sync-operator
 spec:
   group: raczylo.com
   names:
@@ -15,107 +17,103 @@ spec:
     singular: clusterimage
   scope: Namespaced
   versions:
-  - additionalPrinterColumns:
-    - jsonPath: .spec.image
-      name: Image
-      type: string
-    - jsonPath: .spec.storage
-      name: Storage
-      type: string
-    - jsonPath: .spec.exportPath
-      name: Path
-      type: string
-    - jsonPath: .status.versionCount
-      name: Versions
-      type: integer
-    - jsonPath: .status.lastUpdated
-      name: Last Updated
-      type: date
-    - jsonPath: .metadata.creationTimestamp
-      name: Age
-      type: date
-    name: v1
-    schema:
-      openAPIV3Schema:
-        description: ClusterImage is the Schema for the clusterimages API
-        properties:
-          apiVersion:
-            description: |-
-              APIVersion defines the versioned schema of this representation of an object.
-              Servers should convert recognized schemas to the latest internal value, and
-              may reject unrecognized values.
-              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
-            type: string
-          kind:
-            description: |-
-              Kind is a string value representing the REST resource this object represents.
-              Servers may infer this from the endpoint the client submits requests to.
-              Cannot be updated.
-              In CamelCase.
-              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
-            type: string
-          metadata:
-            type: object
-          spec:
-            description: ClusterImageSpec defines the desired state of ClusterImage
-            properties:
-              exportPath:
-                description: ExportPath defines the base path where images will be stored
-                type: string
-              image:
-                description: Image is the base name of the container image without tag/sha
-                type: string
-              imageNamespace:
-                description: ImageNamespace defines the namespace where the image is
-                  located
-                type: string
-              imagePullSecrets:
-                description: ImagePullSecrets are references to secrets to use for pulling
-                  images
-                items:
-                  description: |-
-                    LocalObjectReference contains enough information to let you locate the
-                    referenced object inside the same namespace.
-                  properties:
-                    name:
-                      default: ""
-                      description: |-
-                        Name of the referent.
-                        This field is effectively required, but due to backwards compatibility is
-                        allowed to be empty. Instances of this type with an empty value here are
-                        almost certainly wrong.
-                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                      type: string
-                  type: object
-                  x-kubernetes-map-type: atomic
-                type: array
-              jobAnnotations:
-                additionalProperties:
+    - additionalPrinterColumns:
+        - jsonPath: .spec.image
+          name: Image
+          type: string
+        - jsonPath: .spec.storage
+          name: Storage
+          type: string
+        - jsonPath: .spec.exportPath
+          name: Path
+          type: string
+        - jsonPath: .status.versionCount
+          name: Versions
+          type: integer
+        - jsonPath: .status.lastUpdated
+          name: Last Updated
+          type: date
+        - jsonPath: .metadata.creationTimestamp
+          name: Age
+          type: date
+      name: v1
+      schema:
+        openAPIV3Schema:
+          description: ClusterImage is the Schema for the clusterimages API
+          properties:
+            apiVersion:
+              description: |-
+                APIVersion defines the versioned schema of this representation of an object.
+                Servers should convert recognized schemas to the latest internal value, and
+                may reject unrecognized values.
+                More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+              type: string
+            kind:
+              description: |-
+                Kind is a string value representing the REST resource this object represents.
+                Servers may infer this from the endpoint the client submits requests to.
+                Cannot be updated.
+                In CamelCase.
+                More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+              type: string
+            metadata:
+              type: object
+            spec:
+              description: ClusterImageSpec defines the desired state of ClusterImage
+              properties:
+                exportPath:
+                  description: ExportPath defines the base path where images will be stored
                   type: string
-                description: JobAnnotations are optional annotations to add to export
-                  jobs
-                type: object
-              storage:
-                description: Storage defines where the image should be stored
-                type: string
-            type: object
-          status:
-            description: ClusterImageStatus defines the observed state of ClusterImage
-            properties:
-              lastUpdated:
-                description: LastUpdated is when the last version was added/updated
-                format: date-time
-                type: string
-              versionCount:
-                description: VersionCount is the number of versions tracked for this
-                  image
-                type: integer
-            type: object
-        type: object
-    served: true
-    storage: true
-    subresources:
-      status: {}
+                image:
+                  description: Image is the base name of the container image without tag/sha
+                  type: string
+                imageNamespace:
+                  description: ImageNamespace defines the namespace where the image is located
+                  type: string
+                imagePullSecrets:
+                  description: ImagePullSecrets are references to secrets to use for pulling images
+                  items:
+                    description: |-
+                      LocalObjectReference contains enough information to let you locate the
+                      referenced object inside the same namespace.
+                    properties:
+                      name:
+                        default: ""
+                        description: |-
+                          Name of the referent.
+                          This field is effectively required, but due to backwards compatibility is
+                          allowed to be empty. Instances of this type with an empty value here are
+                          almost certainly wrong.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                        type: string
+                    type: object
+                    x-kubernetes-map-type: atomic
+                  type: array
+                jobAnnotations:
+                  additionalProperties:
+                    type: string
+                  description: JobAnnotations are optional annotations to add to export jobs
+                  type: object
+                storage:
+                  description: Storage defines where the image should be stored
+                  type: string
+              type: object
+            status:
+              description: ClusterImageStatus defines the observed state of ClusterImage
+              properties:
+                lastUpdated:
+                  description: LastUpdated is when the last version was added/updated
+                  format: date-time
+                  type: string
+                versionCount:
+                  description: VersionCount is the number of versions tracked for this image
+                  type: integer
+              type: object
+          type: object
+      served: true
+      storage: true
+      subresources:
+        status: {}
 status:
   acceptedNames:
     kind: ""
