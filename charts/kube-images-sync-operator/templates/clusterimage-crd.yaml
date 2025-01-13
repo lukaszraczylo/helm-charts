@@ -16,8 +16,17 @@ spec:
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
+    - jsonPath: .spec.exportName
+      name: Ref
+      type: string
     - jsonPath: .spec.image
       name: Image
+      type: string
+    - jsonPath: .spec.tag
+      name: Tag
+      type: string
+    - jsonPath: .spec.sha
+      name: SHA
       type: string
     - jsonPath: .spec.storage
       name: Storage
@@ -25,12 +34,12 @@ spec:
     - jsonPath: .spec.exportPath
       name: Path
       type: string
-    - jsonPath: .status.versionCount
-      name: Versions
+    - jsonPath: .status.progress
+      name: Progress
+      type: string
+    - jsonPath: .status.retryCount
+      name: Retries
       type: integer
-    - jsonPath: .status.lastUpdated
-      name: Last Updated
-      type: date
     - jsonPath: .metadata.creationTimestamp
       name: Age
       type: date
@@ -59,19 +68,17 @@ spec:
           spec:
             description: ClusterImageSpec defines the desired state of ClusterImage
             properties:
+              exportName:
+                type: string
               exportPath:
-                description: ExportPath defines the base path where images will be stored
+                type: string
+              fullName:
                 type: string
               image:
-                description: Image is the base name of the container image without tag/sha
                 type: string
               imageNamespace:
-                description: ImageNamespace defines the namespace where the image is
-                  located
                 type: string
               imagePullSecrets:
-                description: ImagePullSecrets are references to secrets to use for pulling
-                  images
                 items:
                   description: |-
                     LocalObjectReference contains enough information to let you locate the
@@ -92,23 +99,24 @@ spec:
               jobAnnotations:
                 additionalProperties:
                   type: string
-                description: JobAnnotations are optional annotations to add to export
-                  jobs
                 type: object
-              storage:
-                description: Storage defines where the image should be stored
+              sha:
                 type: string
+              storage:
+                type: string
+              tag:
+                type: string
+            required:
+            - exportName
             type: object
           status:
             description: ClusterImageStatus defines the observed state of ClusterImage
             properties:
-              lastUpdated:
-                description: LastUpdated is when the last version was added/updated
-                format: date-time
+              progress:
                 type: string
-              versionCount:
-                description: VersionCount is the number of versions tracked for this
-                  image
+              retryCount:
+                default: 0
+                description: default value is 0
                 type: integer
             type: object
         type: object

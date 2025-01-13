@@ -8,13 +8,6 @@ rules:
 - apiGroups:
   - ""
   resources:
-  - events
-  verbs:
-  - create
-  - patch
-- apiGroups:
-  - ""
-  resources:
   - pods
   verbs:
   - create
@@ -57,7 +50,6 @@ rules:
   - raczylo.com
   resources:
   - '*'
-  - clusterimageversions
   verbs:
   - create
   - delete
@@ -70,14 +62,12 @@ rules:
   - raczylo.com
   resources:
   - '*/finalizers'
-  - clusterimageversions/finalizers
   verbs:
   - update
 - apiGroups:
   - raczylo.com
   resources:
   - '*/status'
-  - clusterimageversions/status
   verbs:
   - get
   - patch
