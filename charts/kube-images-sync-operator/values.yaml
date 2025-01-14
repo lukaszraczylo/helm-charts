@@ -11,10 +11,10 @@ sa:
         drop:
         - ALL
     env:
-      workerImage: ghcr.io/lukaszraczylo/kubernetes-images-sync-worker:0.5.53
+      workerImage: ghcr.io/lukaszraczylo/kubernetes-images-sync-worker:0.5.54
     image:
       repository: ghcr.io/lukaszraczylo/kubernetes-images-sync-operator
-      tag: 0.5.53
+      tag: 0.5.54
     resources:
       limits:
         cpu: 500m
