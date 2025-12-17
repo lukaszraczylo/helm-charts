@@ -21,7 +21,7 @@ controllerManager:
         - ALL
     image:
       repository: ghcr.io/lukaszraczylo/jobs-manager-operator
-      tag: "0.1.2"
+      tag: "0.1.3"
     resources:
       limits:
         cpu: 500m
