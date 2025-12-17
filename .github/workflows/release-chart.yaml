@@ -1,0 +1,118 @@
+name: Release Chart
+
+on:
+  repository_dispatch:
+    types: [release-chart]
+  workflow_dispatch:
+    inputs:
+      chart_name:
+        description: 'Chart name (e.g., jobs-manager)'
+        required: true
+        type: string
+      version:
+        description: 'Chart version (e.g., 0.0.36)'
+        required: true
+        type: string
+      source_repo:
+        description: 'Source repository (e.g., lukaszraczylo/jobs-manager-operator)'
+        required: true
+        type: string
+      chart_path:
+        description: 'Path to chart in source repo (e.g., charts/jobs-manager-operator)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Parse inputs
+        id: inputs
+        run: |
+          # Handle both repository_dispatch and workflow_dispatch
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            echo "chart_name=${{ github.event.client_payload.chart_name }}" >> $GITHUB_OUTPUT
+            echo "version=${{ github.event.client_payload.version }}" >> $GITHUB_OUTPUT
+            echo "source_repo=${{ github.event.client_payload.source_repo }}" >> $GITHUB_OUTPUT
+            echo "chart_path=${{ github.event.client_payload.chart_path }}" >> $GITHUB_OUTPUT
+          else
+            echo "chart_name=${{ inputs.chart_name }}" >> $GITHUB_OUTPUT
+            echo "version=${{ inputs.version }}" >> $GITHUB_OUTPUT
+            echo "source_repo=${{ inputs.source_repo }}" >> $GITHUB_OUTPUT
+            echo "chart_path=${{ inputs.chart_path }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Checkout helm-charts repo (gh-pages)
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          fetch-depth: 0
+
+      - name: Checkout source repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ steps.inputs.outputs.source_repo }}
+          ref: v${{ steps.inputs.outputs.version }}
+          path: source-repo
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.14.0
+
+      - name: Package and release chart
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          CHART_NAME="${{ steps.inputs.outputs.chart_name }}"
+          VERSION="${{ steps.inputs.outputs.version }}"
+          CHART_PATH="${{ steps.inputs.outputs.chart_path }}"
+
+          echo "Releasing ${CHART_NAME} version ${VERSION}"
+
+          # Update chart version in source
+          sed -i "s/^version:.*/version: ${VERSION}/" "source-repo/${CHART_PATH}/Chart.yaml"
+          sed -i "s/^appVersion:.*/appVersion: \"${VERSION}\"/" "source-repo/${CHART_PATH}/Chart.yaml"
+
+          # Update values.yaml tag if it exists
+          if grep -q "tag:" "source-repo/${CHART_PATH}/values.yaml" 2>/dev/null; then
+            sed -i "s/tag:.*/tag: \"${VERSION}\"/" "source-repo/${CHART_PATH}/values.yaml"
+          fi
+
+          # Package the chart
+          mkdir -p /tmp/helm-packages
+          helm package "source-repo/${CHART_PATH}" -d /tmp/helm-packages/
+
+          CHART_FILE="/tmp/helm-packages/${CHART_NAME}-${VERSION}.tgz"
+
+          # Create GitHub release with chart attached
+          gh release create "${CHART_NAME}-${VERSION}" \
+            "${CHART_FILE}" \
+            --title "${CHART_NAME}-${VERSION}" \
+            --notes "Release ${CHART_NAME} Helm chart version ${VERSION}"
+
+          # Copy to packages directory
+          cp "${CHART_FILE}" charts/packages/
+
+          # Copy updated chart source to local charts directory
+          DEST_DIR="charts/${CHART_PATH##*/}"
+          mkdir -p "${DEST_DIR}"
+          cp -R "source-repo/${CHART_PATH}/"* "${DEST_DIR}/"
+
+          # Update index.yaml with correct GitHub Releases URL
+          helm repo index /tmp/helm-packages/ \
+            --url "https://github.com/lukaszraczylo/helm-charts/releases/download/${CHART_NAME}-${VERSION}" \
+            --merge index.yaml
+
+          cp /tmp/helm-packages/index.yaml index.yaml
+
+      - name: Commit and push to gh-pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --staged --quiet || git commit -m "Release ${{ steps.inputs.outputs.chart_name }} ${{ steps.inputs.outputs.version }}"
+          git push origin gh-pages
