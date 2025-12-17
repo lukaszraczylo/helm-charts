@@ -20,6 +20,48 @@ entries:
         - kind: improved
           description: O(1) dependency lookup performance optimization
     apiVersion: v2
+    appVersion: 0.1.1
+    created: "2025-12-17T22:53:08.807903806Z"
+    description: Kubernetes jobs manager operator for orchestrating workflow-based
+      job execution with dependency management
+    digest: 8a7a0eef8590b782503716b9e2311fd01c828f2b308fc8de06ac442836c08f95
+    home: https://raczylo.com
+    keywords:
+    - operator
+    - jobs
+    - tasks
+    - workflow
+    - kubernetes
+    - batch
+    maintainers:
+    - email: job-manager-operator@raczylo.com
+      name: lukaszraczylo
+    name: jobs-manager
+    sources:
+    - https://github.com/lukaszraczylo/jobs-manager-operator
+    type: application
+    urls:
+    - https://github.com/lukaszraczylo/helm-charts/releases/download/jobs-manager-0.1.1/jobs-manager-0.1.1.tgz
+    version: 0.1.1
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Prometheus metrics support (jobs created/succeeded/failed, active jobs, reconciliation duration)
+        - kind: added
+          description: Configurable leader election ID via --leader-election-id flag
+        - kind: added
+          description: Configurable development logging mode via --dev-mode flag
+        - kind: added
+          description: LOG_LEVEL environment variable support
+        - kind: added
+          description: Finalizers for proper resource cleanup
+        - kind: added
+          description: Resource limits support for job containers
+        - kind: added
+          description: Reconciliation backoff/requeue logic
+        - kind: improved
+          description: O(1) dependency lookup performance optimization
+    apiVersion: v2
     appVersion: 0.0.35
     created: "2025-12-17T22:27:38.400248Z"
     description: Kubernetes jobs manager operator for orchestrating workflow-based
@@ -1134,4 +1176,4 @@ entries:
     urls:
     - https://github.com/lukaszraczylo/helm-charts/releases/download/kube-images-sync-0.1.5/kube-images-sync-0.1.5.tgz
     version: 0.1.5
-generated: "2025-12-17T22:44:17.877709762Z"
+generated: "2025-12-17T22:53:08.804813251Z"
