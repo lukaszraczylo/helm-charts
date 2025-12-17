@@ -50,6 +50,13 @@ jobs:
         with:
           ref: gh-pages
           fetch-depth: 0
+          submodules: false
+
+      - name: Clean up any leftover source-repo
+        run: |
+          rm -rf source-repo
+          # Remove from git index if it exists as submodule
+          git rm -rf --cached source-repo 2>/dev/null || true
 
       - name: Checkout source repo
         uses: actions/checkout@v4
@@ -111,8 +118,13 @@ jobs:
 
       - name: Commit and push to gh-pages
         run: |
+          # Remove source-repo before committing (it's a temp checkout)
+          rm -rf source-repo
+
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A
+
+          # Only add specific paths, not source-repo
+          git add charts/ index.yaml
           git diff --staged --quiet || git commit -m "Release ${{ steps.inputs.outputs.chart_name }} ${{ steps.inputs.outputs.version }}"
           git push origin gh-pages
