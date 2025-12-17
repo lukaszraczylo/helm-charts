@@ -12,7 +12,7 @@ controllerManager:
         - ALL
     image:
       repository: gcr.io/kubebuilder/kube-rbac-proxy
-      tag: "0.0.35"
+      tag: "0.1.1"
     resources:
       limits:
         cpu: 500m
@@ -41,7 +41,7 @@ controllerManager:
         - ALL
     image:
       repository: ghcr.io/lukaszraczylo/jobs-manager-operator
-      tag: "0.0.35"
+      tag: "0.1.1"
     resources:
       limits:
         cpu: 500m
