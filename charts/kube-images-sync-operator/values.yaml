@@ -1,8 +1,11 @@
 kubernetesClusterDomain: cluster.local
-sa:
+
+controllerManager:
   manager:
+    # Command line arguments for the manager
     args:
     - --metrics-bind-address=:8443
+    - --metrics-secure
     - --leader-elect
     - --health-probe-bind-address=:8081
     containerSecurityContext:
@@ -14,7 +17,7 @@ sa:
       workerImage: ghcr.io/lukaszraczylo/kubernetes-images-sync-worker:0.5.54
     image:
       repository: ghcr.io/lukaszraczylo/kubernetes-images-sync-operator
-      tag: 0.5.54
+      tag: "0.5.57"
     resources:
       limits:
         cpu: 500m
@@ -27,10 +30,24 @@ sa:
   replicas: 1
   serviceAccount:
     annotations: {}
-saMetricsService:
+
+# Metrics service configuration
+metricsService:
   ports:
   - name: https
     port: 8443
     protocol: TCP
     targetPort: 8443
   type: ClusterIP
+
+# ServiceMonitor for Prometheus Operator integration
+serviceMonitor:
+  enabled: false
+  # Namespace where ServiceMonitor will be created (defaults to release namespace)
+  namespace: ""
+  # Additional labels for ServiceMonitor
+  labels: {}
+  # Scrape interval
+  interval: 30s
+  # Scrape timeout
+  scrapeTimeout: 10s

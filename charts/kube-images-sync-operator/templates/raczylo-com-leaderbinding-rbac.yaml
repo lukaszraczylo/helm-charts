@@ -10,5 +10,5 @@ roleRef:
   name: '{{ include "chart.fullname" . }}-raczylo-com-leader'
 subjects:
 - kind: ServiceAccount
-  name: '{{ include "chart.fullname" . }}-sa'
+  name: '{{ include "chart.fullname" . }}-controller-manager'
   namespace: '{{ .Release.Namespace }}'
