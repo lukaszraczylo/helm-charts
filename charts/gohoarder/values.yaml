@@ -51,17 +51,17 @@ image:
   server:
     repository: ghcr.io/lukaszraczylo/gohoarder-server
     pullPolicy: IfNotPresent
-    tag: "0.0.1"
+    tag: "0.0.2"
 
   frontend:
     repository: ghcr.io/lukaszraczylo/gohoarder-frontend
     pullPolicy: IfNotPresent
-    tag: "0.0.1"
+    tag: "0.0.2"
 
   scanner:
     repository: ghcr.io/lukaszraczylo/gohoarder-scanner
     pullPolicy: IfNotPresent
-    tag: "0.0.1"
+    tag: "0.0.2"
 
 # Service Account
 serviceAccount:
