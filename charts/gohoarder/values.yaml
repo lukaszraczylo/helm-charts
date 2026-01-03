@@ -51,17 +51,17 @@ image:
   server:
     repository: ghcr.io/lukaszraczylo/gohoarder-server
     pullPolicy: IfNotPresent
-    tag: "0.0.4"
+    tag: "0.1.9"
 
   frontend:
     repository: ghcr.io/lukaszraczylo/gohoarder-frontend
     pullPolicy: IfNotPresent
-    tag: "0.0.4"
+    tag: "0.1.9"
 
   scanner:
     repository: ghcr.io/lukaszraczylo/gohoarder-scanner
     pullPolicy: IfNotPresent
-    tag: "0.0.4"
+    tag: "0.1.9"
 
 # Service Account
 serviceAccount:
@@ -285,7 +285,9 @@ metadata:
       size: "10Gi"
       accessMode: "ReadWriteOnce"
       existingClaim: ""
-    walMode: true
+    # WAL mode provides better concurrency but doesn't work on network filesystems (SMB, NFS)
+    # Set to false when using network storage for the metadata volume
+    walMode: false
 
   # PostgreSQL configuration
   postgresql:
