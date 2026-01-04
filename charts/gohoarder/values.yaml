@@ -51,17 +51,17 @@ image:
   server:
     repository: ghcr.io/lukaszraczylo/gohoarder-server
     pullPolicy: IfNotPresent
-    tag: "0.1.28"
+    tag: "0.1.43"
 
   frontend:
     repository: ghcr.io/lukaszraczylo/gohoarder-frontend
     pullPolicy: IfNotPresent
-    tag: "0.1.28"
+    tag: "0.1.43"
 
   scanner:
     repository: ghcr.io/lukaszraczylo/gohoarder-scanner
     pullPolicy: IfNotPresent
-    tag: "0.1.28"
+    tag: "0.1.43"
 
 # Service Account
 serviceAccount:
@@ -358,7 +358,7 @@ migration:
   image:
     repository: ghcr.io/lukaszraczylo/gohoarder-migrate
     pullPolicy: IfNotPresent
-    tag: "0.1.28"
+    tag: "0.1.43"
 
   # Migration settings
   logLevel: "info"    # debug, info, warn, error
@@ -507,21 +507,12 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
 
-  # Ingress for frontend
-  frontend:
-    enabled: true
-    host: "gohoarder.local"
-    tls:
-      enabled: false
-      secretName: "gohoarder-frontend-tls"
-
-  # Ingress for API (if you want separate ingress)
-  api:
+  # Single ingress routes all traffic to frontend
+  # Frontend now includes reverse proxy to backend (merged gateway functionality)
+  host: "gohoarder.local"
+  tls:
     enabled: false
-    host: "api.gohoarder.local"
-    tls:
-      enabled: false
-      secretName: "gohoarder-api-tls"
+    secretName: "gohoarder-tls"
 
 # Autoscaling configuration
 autoscaling:
