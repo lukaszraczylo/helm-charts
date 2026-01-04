@@ -2,8 +2,8 @@ apiVersion: v2
 name: gohoarder
 description: A universal package cache proxy supporting npm, PyPI, and Go modules with security scanning
 type: application
-version: 0.1.52
-appVersion: "0.1.52"
+version: 0.1.54
+appVersion: "0.1.54"
 keywords:
   - package-manager
   - cache
@@ -19,4 +19,4 @@ sources:
 maintainers:
   - name: Lukasz Raczylo
     email: lukasz@raczylo.com
-icon: https://raw.githubusercontent.com/lukaszraczylo/gohoarder/main/docs/logo.png
+# icon: https://raw.githubusercontent.com/lukaszraczylo/gohoarder/main/docs/logo.png  # TODO: Add logo
