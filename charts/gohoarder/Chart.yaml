@@ -2,8 +2,8 @@ apiVersion: v2
 name: gohoarder
 description: A universal package cache proxy supporting npm, PyPI, and Go modules with security scanning
 type: application
-version: 0.1.83
-appVersion: "0.1.83"
+version: 0.1.84
+appVersion: "0.1.84"
 keywords:
   - package-manager
   - cache
