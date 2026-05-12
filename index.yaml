@@ -3937,6 +3937,28 @@ entries:
     version: 0.1.5
   kubemirror:
   - apiVersion: v2
+    appVersion: 0.8.18
+    created: "2026-05-12T04:39:42.464387711Z"
+    description: Kubernetes controller for mirroring resources across namespaces
+    digest: 9dae27c2f7fa2051ef983e8732ca459576fc5de34294696f61cf5287891e7528
+    home: https://github.com/lukaszraczylo/kubemirror
+    keywords:
+    - kubernetes
+    - controller
+    - mirror
+    - secrets
+    - configmaps
+    maintainers:
+    - email: lukasz@raczylo.com
+      name: Lukasz Raczylo
+    name: kubemirror
+    sources:
+    - https://github.com/lukaszraczylo/kubemirror
+    type: application
+    urls:
+    - https://github.com/lukaszraczylo/helm-charts/releases/download/kubemirror-0.8.18/kubemirror-0.8.18.tgz
+    version: 0.8.18
+  - apiVersion: v2
     appVersion: 0.8.16
     created: "2026-05-10T04:45:12.1263234Z"
     description: Kubernetes controller for mirroring resources across namespaces
@@ -4332,4 +4354,4 @@ entries:
     urls:
     - https://github.com/lukaszraczylo/helm-charts/releases/download/kubemirror-0.2.8/kubemirror-0.2.8.tgz
     version: 0.2.8
-generated: "2026-05-10T04:45:12.125727231Z"
+generated: "2026-05-12T04:39:42.463788686Z"
