@@ -3,7 +3,7 @@ replicaCount: 1
 image:
   repository: ghcr.io/lukaszraczylo/kubemirror
   pullPolicy: IfNotPresent
-  tag: "0.9.4"
+  tag: "0.9.6"
 
 imagePullSecrets: []
 nameOverride: ""
