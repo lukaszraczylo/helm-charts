@@ -51,17 +51,17 @@ image:
   server:
     repository: ghcr.io/lukaszraczylo/gohoarder-server
     pullPolicy: IfNotPresent
-    tag: "0.1.147"
+    tag: "0.1.148"
 
   frontend:
     repository: ghcr.io/lukaszraczylo/gohoarder-frontend
     pullPolicy: IfNotPresent
-    tag: "0.1.147"
+    tag: "0.1.148"
 
   scanner:
     repository: ghcr.io/lukaszraczylo/gohoarder-scanner
     pullPolicy: IfNotPresent
-    tag: "0.1.147"
+    tag: "0.1.148"
 
 # Service Account
 serviceAccount:
@@ -358,7 +358,7 @@ migration:
   image:
     repository: ghcr.io/lukaszraczylo/gohoarder-migrate
     pullPolicy: IfNotPresent
-    tag: "0.1.147"
+    tag: "0.1.148"
 
   # Migration settings
   logLevel: "info"    # debug, info, warn, error
@@ -513,6 +513,16 @@ ingress:
   tls:
     enabled: false
     secretName: "gohoarder-tls"
+
+  # Traefik-specific configuration (when className: "traefik")
+  # Used by IngressRoute template for advanced routing
+  traefik:
+    # Middleware references (from traefik namespace)
+    # Example: ["default-chain", "rate-limit"]
+    middlewares: []
+    # ServersTransport configuration
+    transport:
+      serverName: ""
 
 # Autoscaling configuration
 autoscaling:
