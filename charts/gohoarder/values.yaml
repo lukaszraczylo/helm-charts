@@ -51,17 +51,17 @@ image:
   server:
     repository: ghcr.io/lukaszraczylo/gohoarder-server
     pullPolicy: IfNotPresent
-    tag: "0.1.164"
+    tag: "0.1.165"
 
   frontend:
     repository: ghcr.io/lukaszraczylo/gohoarder-frontend
     pullPolicy: IfNotPresent
-    tag: "0.1.164"
+    tag: "0.1.165"
 
   scanner:
     repository: ghcr.io/lukaszraczylo/gohoarder-scanner
     pullPolicy: IfNotPresent
-    tag: "0.1.164"
+    tag: "0.1.165"
 
 # Service Account
 serviceAccount:
@@ -358,7 +358,7 @@ migration:
   image:
     repository: ghcr.io/lukaszraczylo/gohoarder-migrate
     pullPolicy: IfNotPresent
-    tag: "0.1.164"
+    tag: "0.1.165"
 
   # Migration settings
   logLevel: "info"    # debug, info, warn, error
