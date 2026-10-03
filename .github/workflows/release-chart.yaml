@@ -70,6 +70,44 @@ jobs:
         with:
           version: v3.14.0
 
+      - name: Ensure PyYAML
+        run: python3 -c "import yaml" 2>/dev/null || sudo apt-get install -y -qq python3-yaml
+
+      - name: Lint chart
+        env:
+          CHART_PATH: ${{ steps.inputs.outputs.chart_path }}
+        run: |
+          python3 - <<'PY'
+          import os, sys, yaml
+
+          VALID_KINDS = {"added", "changed", "deprecated", "removed", "fixed", "security"}
+          chart_dir = os.path.join("source-repo", os.environ["CHART_PATH"])
+          with open(os.path.join(chart_dir, "Chart.yaml")) as f:
+              chart = yaml.safe_load(f)
+
+          raw = (chart.get("annotations") or {}).get("artifacthub.io/changes")
+          errors = []
+          if raw:
+              changes = yaml.safe_load(raw)
+              if not isinstance(changes, list):
+                  errors.append("artifacthub.io/changes must be a list")
+              else:
+                  for i, change in enumerate(changes):
+                      if not isinstance(change, dict):
+                          errors.append(f"change {i}: must be a mapping")
+                          continue
+                      if change.get("kind") not in VALID_KINDS:
+                          errors.append(f"change {i}: invalid kind {change.get('kind')!r}")
+                      if not change.get("description"):
+                          errors.append(f"change {i}: missing description")
+          for e in errors:
+              print(f"::error file={chart_dir}/Chart.yaml::{e}")
+          if errors:
+              print(f"Valid kinds: {', '.join(sorted(VALID_KINDS))}")
+              sys.exit(1)
+          PY
+          helm lint "source-repo/${CHART_PATH}"
+
       - name: Package and release chart
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -116,6 +154,37 @@ jobs:
 
           cp /tmp/helm-packages/index.yaml index.yaml
 
+      - name: Update README chart table
+        run: |
+          python3 - <<'PY'
+          import re, yaml
+
+          START, END = "<!-- CHARTS_START -->", "<!-- CHARTS_END -->"
+          with open("index.yaml") as f:
+              entries = yaml.safe_load(f)["entries"]
+
+          def first_sentence(text):
+              text = " ".join((text or "").split())
+              m = re.match(r"(.+?[.!?])(\s|$)", text)
+              return (m.group(1) if m else text).rstrip(".")
+
+          rows = ["| Chart | Description |", "| ----- | ----------- |"]
+          for name in sorted(entries):
+              latest = max(entries[name], key=lambda e: e["created"])
+              link = (latest.get("sources") or [latest.get("home")])[0]
+              desc = first_sentence(latest.get("description")).replace("|", "\\|")
+              rows.append(f"| [{name}]({link}) | {desc} |")
+
+          with open("README.md") as f:
+              readme = f.read()
+          if START not in readme or END not in readme:
+              raise SystemExit(f"README.md is missing the {START} / {END} markers")
+          head, rest = readme.split(START, 1)
+          _, tail = rest.split(END, 1)
+          with open("README.md", "w") as f:
+              f.write(head + START + "\n\n" + "\n".join(rows) + "\n\n" + END + tail)
+          PY
+
       - name: Commit and push to gh-pages
         run: |
           # Remove source-repo before committing (it's a temp checkout)
@@ -125,6 +194,6 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           # Only add specific paths, not source-repo
-          git add charts/ index.yaml
+          git add charts/ index.yaml README.md
           git diff --staged --quiet || git commit -m "Release ${{ steps.inputs.outputs.chart_name }} ${{ steps.inputs.outputs.version }}"
           git push origin gh-pages
