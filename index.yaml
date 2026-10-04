@@ -2,6 +2,32 @@ apiVersion: v1
 entries:
   gohoarder:
   - apiVersion: v2
+    appVersion: 0.1.234
+    created: "2026-10-04T10:51:22.338000093Z"
+    description: A universal package cache proxy supporting npm, PyPI, and Go modules
+      with security scanning
+    digest: 3cb67f20b8e7f8e1878a1e0b8f60799efedf38846203b13f61ef0e8d832c9167
+    home: https://github.com/lukaszraczylo/gohoarder
+    keywords:
+    - package-manager
+    - cache
+    - proxy
+    - npm
+    - pypi
+    - go-modules
+    - security
+    - vulnerability-scanning
+    maintainers:
+    - email: lukasz@raczylo.com
+      name: Lukasz Raczylo
+    name: gohoarder
+    sources:
+    - https://github.com/lukaszraczylo/gohoarder
+    type: application
+    urls:
+    - https://github.com/lukaszraczylo/helm-charts/releases/download/gohoarder-0.1.234/gohoarder-0.1.234.tgz
+    version: 0.1.234
+  - apiVersion: v2
     appVersion: 0.1.230
     created: "2026-10-04T04:58:06.410301213Z"
     description: A universal package cache proxy supporting npm, PyPI, and Go modules
@@ -6182,4 +6208,4 @@ entries:
     urls:
     - https://github.com/lukaszraczylo/helm-charts/releases/download/kubemirror-0.2.8/kubemirror-0.2.8.tgz
     version: 0.2.8
-generated: "2026-10-04T10:51:06.625630183Z"
+generated: "2026-10-04T10:51:22.336422207Z"
