@@ -2,8 +2,8 @@ apiVersion: v2
 name: jobs-manager
 description: Kubernetes jobs manager operator for orchestrating workflow-based job execution with dependency management
 type: application
-version: 0.1.27
-appVersion: "0.1.27"
+version: 0.1.28
+appVersion: "0.1.28"
 keywords:
   - operator
   - jobs
