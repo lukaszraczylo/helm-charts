@@ -17,7 +17,7 @@ controllerManager:
       workerImage: ghcr.io/lukaszraczylo/kubernetes-images-sync-worker:0.5.54
     image:
       repository: ghcr.io/lukaszraczylo/kubernetes-images-sync-operator
-      tag: "0.5.68"
+      tag: "0.5.69"
     resources:
       limits:
         cpu: 500m
