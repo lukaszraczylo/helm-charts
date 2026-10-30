@@ -4329,6 +4329,48 @@ entries:
         - kind: changed
           description: O(1) dependency lookup performance optimization
     apiVersion: v2
+    appVersion: 0.1.37
+    created: "2026-10-30T03:32:13.199835094Z"
+    description: Kubernetes jobs manager operator for orchestrating workflow-based
+      job execution with dependency management
+    digest: 83b55d28246a361aaf652021a9ecac02ab5684e54a897dad394ea5a9f36b4983
+    home: https://raczylo.com
+    keywords:
+    - operator
+    - jobs
+    - tasks
+    - workflow
+    - kubernetes
+    - batch
+    maintainers:
+    - email: job-manager-operator@raczylo.com
+      name: lukaszraczylo
+    name: jobs-manager
+    sources:
+    - https://github.com/lukaszraczylo/jobs-manager-operator
+    type: application
+    urls:
+    - https://github.com/lukaszraczylo/helm-charts/releases/download/jobs-manager-0.1.37/jobs-manager-0.1.37.tgz
+    version: 0.1.37
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Prometheus metrics support (jobs created/succeeded/failed, active jobs, reconciliation duration)
+        - kind: added
+          description: Configurable leader election ID via --leader-election-id flag
+        - kind: added
+          description: Configurable development logging mode via --dev-mode flag
+        - kind: added
+          description: LOG_LEVEL environment variable support
+        - kind: added
+          description: Finalizers for proper resource cleanup
+        - kind: added
+          description: Resource limits support for job containers
+        - kind: added
+          description: Reconciliation backoff/requeue logic
+        - kind: changed
+          description: O(1) dependency lookup performance optimization
+    apiVersion: v2
     appVersion: 0.1.36
     created: "2026-10-26T03:41:05.673658897Z"
     description: Kubernetes jobs manager operator for orchestrating workflow-based
@@ -7588,4 +7630,4 @@ entries:
     urls:
     - https://github.com/lukaszraczylo/helm-charts/releases/download/kubemirror-0.2.8/kubemirror-0.2.8.tgz
     version: 0.2.8
-generated: "2026-10-30T03:31:30.820607593Z"
+generated: "2026-10-30T03:32:13.195938539Z"
