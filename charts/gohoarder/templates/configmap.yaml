@@ -10,8 +10,10 @@ data:
       host: {{ .Values.server.host | quote }}
       port: {{ .Values.server.port }}
       read_timeout: {{ .Values.server.readTimeout | quote }}
+      read_buffer_size: {{ .Values.server.readBufferSize }}
       write_timeout: {{ .Values.server.writeTimeout | quote }}
       idle_timeout: {{ .Values.server.idleTimeout | quote }}
+      allowed_origins: {{ .Values.server.allowedOrigins | default list | toJson }}
       tls:
         enabled: false
 
@@ -73,6 +75,8 @@ data:
     cache:
       default_ttl: {{ .Values.cache.defaultTTL | quote }}
       cleanup_interval: {{ .Values.cache.cleanupInterval | quote }}
+      idle_ttl: {{ .Values.cache.idleTTL | quote }}
+      deleted_retention: {{ .Values.cache.deletedRetention | default "720h" | quote }}
       max_size_bytes: {{ .Values.cache.maxSizeBytes }}
       per_project_quota: {{ .Values.cache.perProjectQuota }}
       ttl_overrides:
@@ -85,6 +89,10 @@ data:
       block_on_severity: {{ .Values.security.blockOnSeverity | quote }}
       scan_on_download: {{ .Values.security.scanOnDownload }}
       rescan_interval: {{ .Values.security.rescanInterval | quote }}
+      rescan_active_window: {{ .Values.security.rescanActiveWindow | quote }}
+      rescan_concurrency: {{ .Values.security.rescanConcurrency }}
+      rescan_on_access: {{ .Values.security.rescanOnAccess }}
+      scan_wait_timeout: {{ .Values.security.scanWaitTimeout | quote }}
       update_db_on_startup: {{ .Values.security.updateDbOnStartup }}
       block_thresholds:
         critical: {{ .Values.security.blockThresholds.critical }}

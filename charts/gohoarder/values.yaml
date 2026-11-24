@@ -51,17 +51,17 @@ image:
   server:
     repository: ghcr.io/lukaszraczylo/gohoarder-server
     pullPolicy: IfNotPresent
-    tag: "0.1.281"
+    tag: "0.1.395"
 
   frontend:
     repository: ghcr.io/lukaszraczylo/gohoarder-frontend
     pullPolicy: IfNotPresent
-    tag: "0.1.281"
+    tag: "0.1.395"
 
   scanner:
     repository: ghcr.io/lukaszraczylo/gohoarder-scanner
     pullPolicy: IfNotPresent
-    tag: "0.1.281"
+    tag: "0.1.395"
 
 # Service Account
 serviceAccount:
@@ -91,8 +91,11 @@ server:
   host: "0.0.0.0"
   port: 8080
   readTimeout: "5m"
+  readBufferSize: 16384  # Bytes for the request line plus headers; larger requests get 431
   writeTimeout: "5m"
   idleTimeout: "2m"
+  # Browser origins allowed to use /api and /ws; empty = same-origin only
+  allowedOrigins: []
 
   # Additional environment variables for server container
   # Use this to override config via environment variables
@@ -358,7 +361,7 @@ migration:
   image:
     repository: ghcr.io/lukaszraczylo/gohoarder-migrate
     pullPolicy: IfNotPresent
-    tag: "0.1.281"
+    tag: "0.1.395"
 
   # Migration settings
   logLevel: "info"    # debug, info, warn, error
@@ -375,14 +378,16 @@ migration:
 
 # Cache configuration
 cache:
-  defaultTTL: "168h"  # 7 days
+  defaultTTL: "24h"  # Freshness window for metadata pages; keep below the 72h client release-age gate
   cleanupInterval: "1h"
+  idleTTL: "168h"  # Remove cached items not requested for this long; "0" disables
+  deletedRetention: "720h"  # Purge deleted package rows after this long; "0" keeps them forever
   maxSizeBytes: 536870912000  # 500GB
   perProjectQuota: 53687091200  # 50GB
-  ttlOverrides:
-    npm: "168h"
-    pip: "168h"
-    go: "168h"
+  ttlOverrides:  # Per-registry metadata freshness; replaces defaultTTL for that registry. Keys: npm, pypi, go
+    npm: "24h"
+    pypi: "24h"
+    go: "24h"
 
 # Security scanning configuration
 security:
@@ -390,6 +395,10 @@ security:
   blockOnSeverity: "high"  # none, low, medium, high, critical
   scanOnDownload: true
   rescanInterval: "24h"
+  rescanActiveWindow: "0s"  # rescan only packages requested within this window; 0 = all
+  rescanConcurrency: 1  # scans run in parallel per rescan cycle
+  rescanOnAccess: false  # rescan a stale cache hit before serving it
+  scanWaitTimeout: "30s"  # how long a first download waits for its scan
   updateDbOnStartup: false
 
   blockThresholds:
@@ -406,7 +415,7 @@ security:
 
     osv:
       enabled: false
-      apiUrl: "https://api.osv.dev"
+      apiUrl: "https://api.osv.dev/v1/query"
       timeout: "30s"
 
     grype:
