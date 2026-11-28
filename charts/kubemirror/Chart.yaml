@@ -2,8 +2,8 @@ apiVersion: v2
 name: kubemirror
 description: Kubernetes controller for mirroring resources across namespaces
 type: application
-version: 0.10.55
-appVersion: "0.10.55"
+version: 0.10.57
+appVersion: "0.10.57"
 keywords:
   - kubernetes
   - controller
