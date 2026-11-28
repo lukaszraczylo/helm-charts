@@ -10,9 +10,9 @@ description: |
 
 type: application
 
-version: 0.5.99
+version: 0.5.100
 
-appVersion: "0.5.99"
+appVersion: "0.5.100"
 
 home: https://github.com/lukaszraczylo/kubernetes-images-sync-operator
 
